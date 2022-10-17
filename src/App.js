@@ -127,9 +127,9 @@ function emitCommentEvent(id) {
   }, 3000);
 }
 
-emitCommentEvent(1);
-emitCommentEvent(2);
-emitCommentEvent(3);
+// emitCommentEvent(1);
+// emitCommentEvent(2);
+// emitCommentEvent(3);
 
 function App() {
   return (

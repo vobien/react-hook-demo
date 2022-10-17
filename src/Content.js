@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const tabs = ["posts", "comments", "albums"];
 
@@ -104,21 +104,74 @@ export default function Content() {
 
   const [activeLesson, setActiveLesson] = useState(1);
   useEffect(() => {
-    const handleEvent = ({detail}) => {
-        console.log(detail)
-    }
+    const handleEvent = ({ detail }) => {
+      console.log(detail);
+    };
 
     // add event listener
-    window.addEventListener(`lesson-${activeLesson}`, handleEvent)
-    
+    window.addEventListener(`lesson-${activeLesson}`, handleEvent);
+
     return () => {
-        // remove event handler before changing the activeLession
-        window.removeEventListener(`lesson-${activeLesson}`, handleEvent)
-    }
-}, [activeLesson])
+      // remove event handler before changing the activeLession
+      window.removeEventListener(`lesson-${activeLesson}`, handleEvent);
+    };
+  }, [activeLesson]);
+
+  const [clock, setClock] = useState(60);
+
+  // useRef() + useEffect() to keep previous state
+  // get previous clock
+  // because when clock is change,
+  // it will re-call this component to render UI
+  // after that it run code in side useEffect to
+  // update prevSecond
+  // result: prevSecond is always keep the previous state of count
+  const prevSecond = useRef();
+  useEffect(() => {
+    prevSecond.current = count;
+  }, [count]);
+  //   console.log(prevSecond.current, count);
+
+  // useRef() use to keep Interval ID to clean up it later
+  const timerId = useRef();
+
+  const handleStart = () => {
+    timerId.current = setInterval(() => {
+      setClock((prev) => prev - 1);
+    }, 1000);
+
+    console.log("start", timerId);
+  };
+
+  const handleStop = () => {
+    clearInterval(timerId.current);
+    console.log("stop", timerId);
+  };
+
+  // useRef() for DOM element
+  const spanCounterRef = useRef();
+  useEffect(() => {
+    console.log(spanCounterRef.current);
+    spanCounterRef.current.style.color = "red";
+  }, []);
+
   return (
     <div>
       <h1>Hello world</h1>
+
+      <div>
+        Count down (seconds):
+        <span ref={spanCounterRef} style={{ fontSize: 20, fontWeight: "bold" }}>
+          {" "}
+          {clock}
+        </span>{" "}
+        <button style={{ marginLeft: "5px" }} onClick={handleStart}>
+          Start
+        </button>
+        <button style={{ marginLeft: "5px" }} onClick={handleStop}>
+          Stop
+        </button>
+      </div>
 
       <div>
         <ul>
@@ -147,6 +200,8 @@ export default function Content() {
       </div>
 
       <h3>Counter (seconds): {count} </h3>
+      <p>Previous second: {prevSecond.current}</p>
+
       <p>Screen width: {width} px</p>
 
       <div>
