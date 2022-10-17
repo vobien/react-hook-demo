@@ -6,6 +6,25 @@ export default function Content() {
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
   const [type, setType] = useState("posts");
+  const [showGoTop, setShowGoTop] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [count, setCount] = useState(0);
+
+  const [avatar, setAvatar] = useState();
+
+  useEffect(() => {
+    // this clean func is called before avatar is updated
+    return () => {
+      avatar && URL.revokeObjectURL(avatar.preview);
+    };
+  }, [avatar]);
+
+  const handleSelectAvatar = (e) => {
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    console.log(file.preview);
+    setAvatar(file);
+  };
 
   // like componentDidUpdate()
   // it runs ONCE when component is mounted
@@ -28,30 +47,145 @@ export default function Content() {
   // AND EVERY time the dependencies change
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/${type}`)
-    .then((res) => res.json())
-    .then((posts) => {
-      setPosts(posts);
-    });
+      .then((res) => res.json())
+      .then((posts) => {
+        setPosts(posts);
+      });
   }, [type]);
 
+  const handleScroll = () => {
+    setShowGoTop(window.scrollY >= 500);
+  };
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
+
+  // add event handler when mounting component
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    // console.log("Add event listener");
+
+    window.addEventListener("resize", handleResize);
+
+    // clean up
+    return () => {
+      //   console.log("Remove event listener");
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount((prev) => prev + 1);
+    }, 1000);
+
+    // clean func
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const lessons = [
+    {
+      id: 1,
+      title: "Lesson 1",
+    },
+    {
+      id: 2,
+      title: "Lesson 2",
+    },
+    {
+      id: 3,
+      title: "Lesson 3",
+    },
+  ];
+
+  const [activeLesson, setActiveLesson] = useState(1);
+  useEffect(() => {
+    const handleEvent = ({detail}) => {
+        console.log(detail)
+    }
+
+    // add event listener
+    window.addEventListener(`lesson-${activeLesson}`, handleEvent)
+    
+    return () => {
+        // remove event handler before changing the activeLession
+        window.removeEventListener(`lesson-${activeLesson}`, handleEvent)
+    }
+}, [activeLesson])
   return (
     <div>
       <h1>Hello world</h1>
+
       <div>
-        {tabs && tabs.map((tab) => 
-          <button  
-          style={type===tab ? {
-            backgroundColor: 'black',
-            color: 'white'
-          } : {}}
-          onClick={() => setType(tab)}>{tab}</button>
+        <ul>
+          {lessons.map(({ id, title }) => (
+            <li
+              key={id}
+              style={activeLesson === id ? { color: "red" } : {}}
+              onClick={() => setActiveLesson(id)}
+            >
+              {title}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <input
+          onChange={handleSelectAvatar}
+          type="file"
+          name="avatar"
+          value=""
+        />
+        {avatar && (
+          <img style={{ width: "50%" }} src={avatar.preview} alt="girls" />
         )}
+      </div>
+
+      <h3>Counter (seconds): {count} </h3>
+      <p>Screen width: {width} px</p>
+
+      <div>
+        {tabs &&
+          tabs.map((tab) => (
+            <button
+              key={tab}
+              style={
+                type === tab
+                  ? {
+                      backgroundColor: "black",
+                      color: "white",
+                    }
+                  : {}
+              }
+              onClick={() => setType(tab)}
+            >
+              {tab}
+            </button>
+          ))}
       </div>
       <input onChange={(e) => setTitle(e.target.value)} />
 
       <ul>
-        {posts && posts.map((post) => <li key={post.id}>{post.title || post.name}</li>)}
+        {posts &&
+          posts.map((post) => <li key={post.id}>{post.title || post.name}</li>)}
       </ul>
+
+      {showGoTop && (
+        <button
+          style={{
+            position: "fixed",
+            bottom: "30px",
+            right: "30px",
+          }}
+        >
+          Go to Top
+        </button>
+      )}
     </div>
   );
 }

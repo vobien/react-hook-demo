@@ -50,24 +50,25 @@ function DemoCheckbox(props) {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleCheckboxChange = (id) => {
-    setSelectedItems(prev => {
-        if (selectedItems.includes(id)) {
-            console.log("uncheck ", id);
-            return prev.filter(itemId => itemId !== id)
-        }
-        return [...prev, id]
+    setSelectedItems((prev) => {
+      if (selectedItems.includes(id)) {
+        console.log("uncheck ", id);
+        return prev.filter((itemId) => itemId !== id);
+      }
+      return [...prev, id];
     });
-  }
-
+  };
 
   return (
     <div>
-      {choices.map(({id, value}) => {
+      {choices.map(({ id, value }) => {
         return (
           <div key={id}>
-            <input type="checkbox" 
-            checked={selectedItems.includes(id)}
-            onChange={() => handleCheckboxChange(id)} />
+            <input
+              type="checkbox"
+              checked={selectedItems.includes(id)}
+              onChange={() => handleCheckboxChange(id)}
+            />
             {value}
           </div>
         );
@@ -78,48 +79,57 @@ function DemoCheckbox(props) {
 }
 
 function DemoTodoList(props) {
-    const [job, setJob] = useState('');
-    const [jobs, setJobs] = useState(() => {
-        const oldJobs = localStorage.getItem("jobs")
-        return JSON.parse(oldJobs) ?? [];
+  const [job, setJob] = useState("");
+  const [jobs, setJobs] = useState(() => {
+    const oldJobs = localStorage.getItem("jobs");
+    return JSON.parse(oldJobs) ?? [];
+  });
+
+  const handleSubmit = () => {
+    setJobs((prev) => {
+      const newJobs = [...prev, job];
+      localStorage.setItem("jobs", JSON.stringify(newJobs));
+      return newJobs;
     });
+    setJob("");
+  };
 
-    const handleSubmit = () => {
-        setJobs(prev => {
-            const newJobs = [...prev, job];
-            localStorage.setItem('jobs', JSON.stringify(newJobs));
-            return newJobs;
-        });
-        setJob('');
-    }
-
-    return (
-        <div>
-            <input value={job} type="text" onChange={(e) => setJob(e.target.value)} />
-            <button onClick={handleSubmit}>Add</button>
-            <ul>
-                {
-                    jobs && jobs.map((task, id) => <li key={id}>{task}</li>)
-                }
-            </ul>
-            <hr />
-        </div>
-    )
+  return (
+    <div>
+      <input value={job} type="text" onChange={(e) => setJob(e.target.value)} />
+      <button onClick={handleSubmit}>Add</button>
+      <ul>{jobs && jobs.map((task, id) => <li key={id}>{task}</li>)}</ul>
+      <hr />
+    </div>
+  );
 }
 
 function DemoMount() {
-    const [show, setShow] = useState(true);
-    const handleClick = () => {
-        setShow(prev => !prev);
-    };
-    return (
-        <div>
-            <button onClick={handleClick}>Hide/Show</button>
-            {show && <Content />}
-        </div>
-    );
+  const [show, setShow] = useState(true);
+  const handleClick = () => {
+    setShow((prev) => !prev);
+  };
+  return (
+    <div>
+      <button onClick={handleClick}>Hide/Show</button>
+      {show && <Content />}
+    </div>
+  );
 }
 
+function emitCommentEvent(id) {
+  setInterval(() => {
+    window.dispatchEvent(
+      new CustomEvent(`lesson-${id}`, {
+        detail: `You have a message for lesson ${id}`,
+      })
+    );
+  }, 3000);
+}
+
+emitCommentEvent(1);
+emitCommentEvent(2);
+emitCommentEvent(3);
 
 function App() {
   return (
