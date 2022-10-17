@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 import Content from "./Content";
+import DemoMemo from "./DemoMemo";
 
 function DemoState() {
   const data = [1, 2, 3];
@@ -132,6 +133,16 @@ function emitCommentEvent(id) {
 // emitCommentEvent(3);
 
 function App() {
+  const [count, setCount] = useState(0);
+
+  // create Reference of the function outside of Component scope
+  // only create new function ref when dependencies change
+  // MUST use memo() & useCallback() to avoid re-rendering
+  // Component unnecessarily
+  const handleClickUseCallback = useCallback(() => {
+    setCount((prev) => prev + 1);
+  }, []);
+
   return (
     <>
       <DemoState />
@@ -141,6 +152,9 @@ function App() {
       <DemoTodoList />
 
       <DemoMount />
+
+      <DemoMemo onClick={handleClickUseCallback} />
+      <p>{count}</p>
     </>
   );
 }
