@@ -7,6 +7,7 @@ import DemoState from "./DemoState";
 import DemoTodoList from "./DemoTodoList";
 import DemoMount from "./DemoMount";
 import DemoHookMemo from "./DemoHookMemo";
+import DemoUseReducer from "./DemoUseReducer";
 
 function emitCommentEvent(id) {
   setInterval(() => {
@@ -47,6 +48,8 @@ function App() {
       <p>{count}</p>
 
       <DemoHookMemo />
+
+      <DemoUseReducer />
     </>
   );
 }
