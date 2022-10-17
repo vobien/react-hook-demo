@@ -6,6 +6,7 @@ import DemoMemo from "./DemoMemo";
 import DemoState from "./DemoState";
 import DemoTodoList from "./DemoTodoList";
 import DemoMount from "./DemoMount";
+import DemoHookMemo from "./DemoHookMemo";
 
 function emitCommentEvent(id) {
   setInterval(() => {
@@ -44,6 +45,8 @@ function App() {
 
       <DemoMemo onClick={handleClickUseCallback} />
       <p>{count}</p>
+
+      <DemoHookMemo />
     </>
   );
 }

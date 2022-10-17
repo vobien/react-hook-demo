@@ -5,6 +5,13 @@ function DemoMemo({ onClick }) {
   return (
     <>
       <h1>Demo memo & useCallback()</h1>
+      <ul>
+        <li>memo: avoid to render a component unnecessarily</li>
+        <li>
+          useCallback(): avoid to create a new function (reference)
+          unnecessarily
+        </li>
+      </ul>
       <button onClick={onClick}>useCallback</button>
     </>
   );
