@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import "./App.css";
 
 import DemoCheckbox from "./DemoCheckbox";
@@ -8,6 +8,8 @@ import DemoTodoList from "./DemoTodoList";
 import DemoMount from "./DemoMount";
 import DemoHookMemo from "./DemoHookMemo";
 import DemoUseReducer from "./DemoUseReducer";
+import ContentTheme from "./ContentTheme";
+import { ThemeContext } from "./ThemeContext";
 
 function emitCommentEvent(id) {
   setInterval(() => {
@@ -25,6 +27,7 @@ function emitCommentEvent(id) {
 
 function App() {
   const [count, setCount] = useState(0);
+  const themeContext = useContext(ThemeContext);
 
   // create Reference of the function outside of Component scope
   // only create new function ref when dependencies change
@@ -50,6 +53,9 @@ function App() {
       <DemoHookMemo />
 
       <DemoUseReducer />
+
+      <button onClick={themeContext.handleToggleTheme}>Toggle Theme</button>
+      <ContentTheme />
     </>
   );
 }
