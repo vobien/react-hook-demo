@@ -4,7 +4,7 @@ import { addJob, removeJob } from "./actions";
 import logger from "./logger";
 
 export default function TodoReducer() {
-  const [todo, dispatch] = useReducer(reducer, initalState);
+  const [todo, dispatch] = useReducer(logger(reducer), initalState);
   const taskRef = useRef();
 
   const handleAddTask = (task) => {
