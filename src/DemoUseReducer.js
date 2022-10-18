@@ -1,5 +1,5 @@
 import CounterReducer from "./CounterReducer";
-import TodoReducer from "./TodoReducer";
+import TodoApp from "./Todo";
 
 export default function DemoUseReducer() {
   return (
@@ -13,7 +13,7 @@ export default function DemoUseReducer() {
 
       <CounterReducer />
 
-      <TodoReducer />
+      <TodoApp />
     </div>
   );
 }

@@ -1,46 +1,7 @@
 import { useReducer, useRef } from "react";
-
-// 1. create inital state
-const initalState = {
-  jobs: [],
-};
-
-// 2. define action
-const ADD_JOB = "add_job";
-const REMOVE_JOB = "remove_job";
-
-const addJob = (payload) => {
-  return {
-    type: ADD_JOB,
-    payload,
-  };
-};
-
-const removeJob = (payload) => {
-  return {
-    type: REMOVE_JOB,
-    payload,
-  };
-};
-
-// 3. define reducer
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ADD_JOB:
-      return {
-        ...state,
-        jobs: [...state.jobs, action.payload],
-      };
-    case REMOVE_JOB:
-      const newJobs = state.jobs.filter((job) => job !== action.payload);
-      return {
-        ...state,
-        jobs: newJobs,
-      };
-    default:
-      throw Error("Invalid action: ", action);
-  }
-};
+import reducer, { initalState } from "./reducers";
+import { addJob, removeJob } from "./actions";
+import logger from "./logger";
 
 export default function TodoReducer() {
   const [todo, dispatch] = useReducer(reducer, initalState);
