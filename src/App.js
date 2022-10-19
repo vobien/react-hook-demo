@@ -10,6 +10,8 @@ import DemoHookMemo from "./DemoHookMemo";
 import DemoUseReducer from "./DemoUseReducer";
 import ContentTheme from "./ContentTheme";
 import { ThemeContext } from "./ThemeContext";
+import DemoGlobalState from "./DemoGlobalState";
+import { StoreProvider } from "./store";
 
 function emitCommentEvent(id) {
   setInterval(() => {
@@ -56,6 +58,10 @@ function App() {
 
       <button onClick={themeContext.handleToggleTheme}>Toggle Theme</button>
       <ContentTheme />
+
+      <StoreProvider>
+        <DemoGlobalState />
+      </StoreProvider>
     </>
   );
 }
