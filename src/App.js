@@ -12,6 +12,7 @@ import ContentTheme from "./ContentTheme";
 import { ThemeContext } from "./ThemeContext";
 import DemoGlobalState from "./DemoGlobalState";
 import { StoreProvider } from "./store";
+import DemoImperativeHandle from "./DemoImperativeHandle";
 
 function emitCommentEvent(id) {
   setInterval(() => {
@@ -62,6 +63,8 @@ function App() {
       <StoreProvider>
         <DemoGlobalState />
       </StoreProvider>
+
+      <DemoImperativeHandle />
     </>
   );
 }
