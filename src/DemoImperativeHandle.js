@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Video from "./Video";
+import styles from "./DemoImperativeHandle.module.css";
 
 function DemoImperativeHandle() {
   const ref = useRef();
@@ -27,8 +28,16 @@ function DemoImperativeHandle() {
 
       <div>
         <Video ref={ref} />
-        <button onClick={handlePlay}>Play</button>
-        <button onClick={handlePause}>Pause</button>
+        <button
+          id={styles.play}
+          className={styles.control}
+          onClick={handlePlay}
+        >
+          Play
+        </button>
+        <button className={styles.control} onClick={handlePause}>
+          Pause
+        </button>
       </div>
     </div>
   );

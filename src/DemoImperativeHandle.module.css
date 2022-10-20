@@ -1,0 +1,16 @@
+.control {
+    color: blue;
+    background-color: azure;
+    margin-left: 10px;
+}
+
+#play {
+    color: red;
+}
+
+/* cannot add tag in CSS module, it will affect global
+ CSS module only generate HASH class name for class/id in fileName.module.css
+*/
+/* h1 { // apply GLOBAL HTML tag 
+    color: red;
+} */
