@@ -1,11 +1,16 @@
 .control {
-    color: blue;
-    background-color: azure;
+    color: rgb(0, 0, 0);
+    background-color: rgba(217, 217, 228, 0.945);
     margin-left: 10px;
+
+    &:hover {
+        opacity: 0.8;
+        background-color: aliceblue;
+    }
 }
 
 #play {
-    color: red;
+    color: rgb(235, 4, 4);
 }
 
 /* cannot add tag in CSS module, it will affect global

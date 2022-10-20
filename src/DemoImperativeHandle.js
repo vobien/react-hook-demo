@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import Video from "./Video";
-import styles from "./DemoImperativeHandle.module.css";
+import styles from "./DemoImperativeHandle.module.scss";
 
 function DemoImperativeHandle() {
   const ref = useRef();
